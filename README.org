@@ -1,0 +1,36 @@
+#+title: DataToolkitDocumenter.jl
+#+author: tecosaur
+
+This is a tiny package that allows data sets to be documented in the same manner
+as functions/variables.
+
+[[https://user-images.githubusercontent.com/20903656/229799720-1a8b47ef-f26e-4851-aa5e-ab229a7f046a.png]]
+
+* Usage
+
+Add =DataToolkitDocumenter= along with =Documenter= when generating the
+documentation, and ensure that any data collection(s) you want to document are
+loaded.
+
+In the documentation source files themselves, use =@datasets= in the same manner
+as =@docs= to document some data sets by their identifier, e.g.
+
+#+begin_src md
+```@datasets
+iris
+[other identifiers...]
+```
+#+end_src
+
+For documenting an entire data collection with ease, one can use =@autodatasets=.
+With no content it will document the first collection on the stack, but specific
+collections can be documented by setting a =Collections= value, like so:
+
+#+begin_src md
+```@autodatasets
+Collections = [nothing, "foo", "bar", "ded0d04d-deda-4bd8-95cb-5b214a5e3ce6"]
+```
+#+end_src
+
+The value of ~nothing~ is special, and refers to the top entry of the data
+collection stack. Other collections can be referenced by name or UUID.
