@@ -4,7 +4,16 @@
 This is a tiny package that allows data sets to be documented in the same manner
 as functions/variables.
 
-[[https://user-images.githubusercontent.com/20903656/229799720-1a8b47ef-f26e-4851-aa5e-ab229a7f046a.png]]
+[[https://user-images.githubusercontent.com/20903656/253025150-bf3451e1-bc2b-42b3-b9fb-985e816a2614.png]]
+
+* Recognised dataset parameters
+
++ =description=
++ =licence= / =license=
++ =creator=
++ =date=
++ =doi=
++ =webpage=
 
 * Usage
 
