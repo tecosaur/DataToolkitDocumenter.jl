@@ -33,6 +33,24 @@ function latex(io::Context, ::Node, node::DataNode)
     _println(io, "\n\n\\begin{adjustwidth}{2em}{0pt}")
     _println(io)
     latex(io, node.description.children)
-    _println(io)
+    _println(io, "\n\\noindent\\rule{0.96\\textwidth}{0.5pt}\\\\")
+    if isempty(node.dataset.loaders)
+        latex(io, first(Documenter.mdparse("""
+            !!! warning "Unloadable"
+                This data set has not defined any loaders, and so cannot be loaded.
+            """, mode=:blocks)))
+    else
+        types = map(t -> "\\texttt{" * sprint(latexesc, string(t)) * "}",
+                    getfield.(node.dataset.loaders, :type) |>
+                        Iterators.flatten |> unique)
+        tjoiners = if length(types) == 0; String[]
+        elseif length(types) == 1; [""]
+        elseif length(types) == 2; [" or ", ""]
+        else vcat(fill(", ", length(types)-2), ", or ", "")
+        end
+        _println(io, " This data set can be loaded as a ",
+                 collect(zip(types, tjoiners) |> Iterators.flatten)...,
+                 ".")
+    end
     _println(io, "\n\\end{adjustwidth}")
 end
