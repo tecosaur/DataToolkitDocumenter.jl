@@ -52,5 +52,28 @@ function latex(io::Context, ::Node, node::DataNode)
                  collect(zip(types, tjoiners) |> Iterators.flatten)...,
                  ".")
     end
-    _println(io, "\n\\end{adjustwidth}")
+    metalabels =
+        [if haskey(node.dataset.parameters, "creator")
+             "Creator" => sprint(latexesc, get(node.dataset, "creator"))
+         end,
+         if haskey(node.dataset.parameters, "date")
+             "Date" => sprint(latexesc, get(node.dataset, "date"))
+         end,
+         if haskey(node.dataset.parameters, "doi")
+             doi = replace(get(node.dataset, "doi"), r"^(?:https?://)?(?:doi\.org)?/?" => "")
+             "DOI" => string("\\href{https://doi.org/", sprint(latexesc, doi),
+                             "}{", sprint(latexesc, doi), "}")
+         end,
+         if haskey(node.dataset.parameters, "webpage")
+             string("\\href{", sprint(latexesc, get(node.dataset, "webpage")), "}{Webpage}") => ""
+         end]
+    filter!(!isnothing, metalabels)
+    if !isempty(metalabels)
+        _println(io)
+        for (label, content) in metalabels
+            _print(io, "\\textbf{", label, "}~", content, "\\hspace{0.75em}")
+        end
+        _println(io)
+    end
+    _println(io, "\\end{adjustwidth}")
 end
