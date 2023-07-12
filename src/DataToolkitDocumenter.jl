@@ -7,6 +7,7 @@ using DataToolkitBase
 
 include("blocks.jl")
 include("expanders.jl")
+include("common.jl")
 include("html.jl")
 include("latex.jl")
 

@@ -16,7 +16,28 @@ function domify(dctx::DCtx, ::Node, node::DataNode)
                       :id=>node.anchor.id,
                       :href=>"#$(node.anchor.id)"](code(name)),
                     " — ",
-                    span[".docstring-category"]("DataSet"))
+                    span[".docstring-category"]("DataSet"),
+                    if haskey(node.dataset.parameters, "licence") || haskey(node.dataset.parameters, "license")
+                        licence = @something(get(node.dataset, "licence"),
+                                             get(node.dataset, "license"))
+                        link = nothing
+                        for (matcher, llink) in LICENCE_LINKS
+                            if !isnothing(match(matcher, licence))
+                                link = llink
+                                break
+                            end
+                        end
+                        if !isnothing(link)
+                            span[:style => "opacity: 0.7; flex: 1; text-align: right"](
+                                a[:href => last(link), :style => "color: inherit"](
+                                    i[".fas.fa-scale-balanced"](),
+                                    " " * first(link)))
+                        else
+                            span[:style => "opacity: 0.7; flex: 1; text-align: right;"](
+                                i[".fas.fa-scale-balanced"](),
+                                " " * licence)
+                        end
+                    else "" end)
 
     description = if !isnothing(node.description)
         section(div(domify(dctx, node.description)))
