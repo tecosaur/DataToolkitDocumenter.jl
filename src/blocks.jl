@@ -1,15 +1,15 @@
-import Documenter.Anchors, Documenter.Object, Documenter.AbstractDocumenterBlock
+import Documenter.Object, Documenter.AbstractDocumenterBlock
 
 struct DataNode <: AbstractDocumenterBlock
     page::Documenter.Page
-    anchor::Anchors.Anchor
+    anchor::Documenter.Anchor
     dataset::DataSet
     description::Union{MarkdownAST.Node, Nothing}
 end
 
 function DataNode(doc, page::Documenter.Page, dataset::DataSet)
     slug = Documenter.slugify(@advise dataset string(Identifier(dataset)))
-    anchor = Anchors.add!(doc.internal.docs, dataset, slug, page.build)
+    anchor = Documenter.anchor_add!(doc.internal.docs, dataset, slug, page.build)
     description = if (desc = get(dataset, "description")) |> !isnothing
         # Taken from `create_docsnode`
         ast = convert(Node, Markdown.parse(desc))

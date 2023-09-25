@@ -5,7 +5,7 @@ function latex(io::Context, node::Node, ::DataNodesBlock)
 end
 
 function latex(io::Context, ::Node, node::DataNode)
-    id = _hash(Anchors.label(node.anchor))
+    id = _hash(Documenter.anchor_label(node.anchor))
     _print(io, "\\hypertarget{", id, "}{\\texttt{")
     latexesc(io, replace(sprint(show, MIME("text/plain"),
                                 Identifier(node.dataset)),

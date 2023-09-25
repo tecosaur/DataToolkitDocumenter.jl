@@ -1,6 +1,6 @@
 import Documenter: @docerror
 import Documenter.Selectors
-import Documenter.Expanders: ExpanderPipeline, iscode
+import Documenter.Expanders: ExpanderPipeline
 
 abstract type DatasetBlocks <: ExpanderPipeline end
 
@@ -9,8 +9,8 @@ abstract type AutoDatasetBlocks <: ExpanderPipeline end
 Selectors.order(::Type{DatasetBlocks}) = 3.5
 Selectors.order(::Type{AutoDatasetBlocks}) = 4.5
 
-Selectors.matcher(::Type{DatasetBlocks},     node, page, doc) = iscode(node, "@datasets")
-Selectors.matcher(::Type{AutoDatasetBlocks}, node, page, doc) = iscode(node, "@autodatasets")
+Selectors.matcher(::Type{DatasetBlocks},     node, page, doc) = Documenter.iscode(node, "@datasets")
+Selectors.matcher(::Type{AutoDatasetBlocks}, node, page, doc) = Documenter.iscode(node, "@autodatasets")
 
 function Selectors.runner(::Type{DatasetBlocks}, node, page, doc)
     @assert node.element isa MarkdownAST.CodeBlock
