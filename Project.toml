@@ -13,6 +13,7 @@ MarkdownAST = "d0879d2d-cac2-40c8-9cee-1863dc0c7391"
 DataToolkitBase = "0.3 - 0.7"
 Documenter = "1"
 MarkdownAST = "0.1"
+julia = "1.6"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
